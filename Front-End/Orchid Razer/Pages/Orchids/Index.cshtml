@@ -1,0 +1,46 @@
+@page
+@model Orchids.IndexModel
+@{
+    ViewData["Title"] = "Orchids";
+}
+<h1>Orchids</h1>
+<form method="get">
+    <input type="text" name="searchTerm" placeholder="Search..." value="@Model.SearchTerm" />
+    <button type="submit">Search</button>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Type</th>
+            <th>Category</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var orchid in Model.Orchids)
+    {
+        <tr>
+            <td>@orchid.OrchidName</td>
+            <td>@orchid.OrchidDescription</td>
+            <td>@orchid.Price</td>
+            <td>@(orchid.IsNatural ? "Natural" : "Artificial")</td>
+            <td>@orchid.CategoryName</td>
+            <td><a href="/Orchids/Details?id=@orchid.Id">Details</a></td>
+        </tr>
+    }
+    </tbody>
+</table>
+<div>
+    Page @Model.PageNumber of @Model.TotalPages
+    @if (Model.HasPreviousPage)
+    {
+        <a href="?pageNumber=@(Model.PageNumber - 1)&searchTerm=@Model.SearchTerm">Previous</a>
+    }
+    @if (Model.HasNextPage)
+    {
+        <a href="?pageNumber=@(Model.PageNumber + 1)&searchTerm=@Model.SearchTerm">Next</a>
+    }
+</div> 

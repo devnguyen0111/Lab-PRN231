@@ -1,0 +1,46 @@
+@page
+@model Orchids.DetailsModel
+@{
+    ViewData["Title"] = "Orchid Details";
+}
+<h2>Orchid Details</h2>
+<div class="row">
+    <div class="col-md-6">
+        <dl class="row">
+            <dt class="col-sm-4">Name</dt>
+            <dd class="col-sm-8">@Model.Orchid?.OrchidName</dd>
+            
+            <dt class="col-sm-4">Description</dt>
+            <dd class="col-sm-8">@Model.Orchid?.OrchidDescription</dd>
+            
+            <dt class="col-sm-4">Price</dt>
+            <dd class="col-sm-8">@Model.Orchid?.Price.ToString("C")</dd>
+            
+            <dt class="col-sm-4">Type</dt>
+            <dd class="col-sm-8">@(Model.Orchid?.IsNatural == true ? "Natural" : "Artificial")</dd>
+            
+            <dt class="col-sm-4">Category</dt>
+            <dd class="col-sm-8">@Model.Orchid?.CategoryName</dd>
+            
+            @if (!string.IsNullOrEmpty(Model.Orchid?.OrchidUrl))
+            {
+                <dt class="col-sm-4">Image URL</dt>
+                <dd class="col-sm-8">@Model.Orchid.OrchidUrl</dd>
+            }
+        </dl>
+        
+        <div class="mt-3">
+            <a asp-page="./Edit" asp-route-id="@Model.Orchid?.OrchidId" class="btn btn-primary">Edit</a>
+            <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
+            <form method="post" asp-page="./Delete" asp-route-id="@Model.Orchid?.OrchidId" style="display: inline;">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this orchid?')">Delete</button>
+            </form>
+        </div>
+    </div>
+    @if (!string.IsNullOrEmpty(Model.Orchid?.OrchidUrl))
+    {
+        <div class="col-md-6">
+            <img src="@Model.Orchid.OrchidUrl" class="img-fluid" alt="@Model.Orchid.OrchidName" />
+        </div>
+    }
+</div> 

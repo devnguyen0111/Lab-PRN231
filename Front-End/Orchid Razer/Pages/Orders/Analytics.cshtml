@@ -1,0 +1,123 @@
+@page
+@model Orders.AnalyticsModel
+@{
+    ViewData["Title"] = "Order Analytics";
+}
+<h2>Order Analytics</h2>
+<form method="get" class="mb-3">
+    <div class="row">
+        <div class="col-md-3">
+            <label for="startDate">Start Date</label>
+            <input type="date" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label for="endDate">End Date</label>
+            <input type="date" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label>&nbsp;</label>
+            <button type="submit" class="btn btn-primary form-control">Filter</button>
+        </div>
+    </div>
+</form>
+
+@if (Model.Analytics != null)
+{
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total Revenue</h5>
+                    <p class="card-text">@Model.Analytics.TotalRevenue.ToString("C")</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total Orders</h5>
+                    <p class="card-text">@Model.Analytics.TotalOrders</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Average Order Value</h5>
+                    <p class="card-text">@Model.Analytics.AverageOrderValue.ToString("C")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Orders by Status</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var status in Model.Analytics.OrdersByStatus)
+                    {
+                        <tr>
+                            <td>@status.Key</td>
+                            <td>@status.Value</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h4>Revenue by Category</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var category in Model.Analytics.RevenueByCategory)
+                    {
+                        <tr>
+                            <td>@category.Key</td>
+                            <td>@category.Value.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <h4>Top Selling Orchids</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Orchid</th>
+                        <th>Category</th>
+                        <th>Quantity Sold</th>
+                        <th>Total Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var orchid in Model.Analytics.TopSellingOrchids)
+                    {
+                        <tr>
+                            <td>@orchid.OrchidName</td>
+                            <td>@orchid.CategoryName</td>
+                            <td>@orchid.TotalQuantitySold</td>
+                            <td>@orchid.TotalRevenue.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+<a asp-page="./Index" class="btn btn-secondary">Back to Orders</a> 

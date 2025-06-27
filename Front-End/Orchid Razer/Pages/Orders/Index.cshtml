@@ -1,0 +1,40 @@
+@page
+@model Orders.IndexModel
+@{
+    ViewData["Title"] = "Orders";
+}
+<h2>Orders</h2>
+<p>
+    <a asp-page="./Create" class="btn btn-primary">Create New Order</a>
+    <a asp-page="./MyOrders" class="btn btn-info">My Orders</a>
+    <a asp-page="./Analytics" class="btn btn-success">Analytics</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Total Amount</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var order in Model.Orders)
+    {
+        <tr>
+            <td>@order.Id</td>
+            <td>@order.OrderDate.ToString("MM/dd/yyyy")</td>
+            <td>@order.OrderStatus</td>
+            <td>@order.TotalAmount.ToString("C")</td>
+            <td>
+                <a asp-page="./Details" asp-route-id="@order.Id" class="btn btn-info btn-sm">Details</a>
+                <a asp-page="./Edit" asp-route-id="@order.Id" class="btn btn-warning btn-sm">Edit Status</a>
+                <form method="post" asp-page="./Cancel" asp-route-id="@order.Id" style="display: inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to cancel this order?')">Cancel</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table> 

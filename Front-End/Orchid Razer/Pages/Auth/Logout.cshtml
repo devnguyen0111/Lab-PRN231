@@ -1,0 +1,15 @@
+@page
+@model Auth.LogoutModel
+@{
+    ViewData["Title"] = "Logout";
+}
+<h2>Logout</h2>
+<form method="post">
+    <p>Are you sure you want to logout?</p>
+    <button type="submit" class="btn btn-primary">Yes, Logout</button>
+    <a href="/" class="btn btn-secondary">Cancel</a>
+    @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+    {
+        <div class="alert alert-success mt-2">@Model.SuccessMessage</div>
+    }
+</form> 
